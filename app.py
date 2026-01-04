@@ -5,23 +5,21 @@ import mediapipe as mp
 import time
 import winsound
 
-# ---------------- CONFIG ----------------
 EAR_THRESHOLD = 0.25
-CLOSED_FRAMES_LIMIT = 30     # continuous frames
+CLOSED_FRAMES_LIMIT = 30
 ALARM_COOLDOWN = 3.0
 CAMERA_INDEX = 0
 
 st.set_page_config(page_title="Drowsiness Detection", layout="centered")
 st.title(" Real-Time Drowsiness Detection (Local)")
 
-# ---------------- SOUND ----------------
+
 def play_sound():
     try:
         winsound.Beep(1200, 700)
     except:
         pass
 
-# ---------------- MEDIAPIPE ----------------
 mp_face_mesh = mp.solutions.face_mesh
 face_mesh = mp_face_mesh.FaceMesh(
     max_num_faces=1,
@@ -33,7 +31,6 @@ face_mesh = mp_face_mesh.FaceMesh(
 LEFT_EYE = [33, 160, 158, 133, 153, 144]
 RIGHT_EYE = [362, 385, 387, 263, 373, 380]
 
-# ---------------- FUNCTIONS ----------------
 def eye_aspect_ratio(lm, eye, w, h):
     pts = [np.array([lm[i].x * w, lm[i].y * h]) for i in eye]
     A = np.linalg.norm(pts[1] - pts[5])
@@ -41,7 +38,6 @@ def eye_aspect_ratio(lm, eye, w, h):
     C = np.linalg.norm(pts[0] - pts[3])
     return (A + B) / (2.0 * C)
 
-# ---------------- SESSION STATE ----------------
 if "running" not in st.session_state:
     st.session_state.running = False
 if "closed_frames" not in st.session_state:
@@ -49,7 +45,6 @@ if "closed_frames" not in st.session_state:
 if "last_alarm" not in st.session_state:
     st.session_state.last_alarm = 0
 
-# ---------------- UI ----------------
 col1, col2 = st.columns(2)
 if col1.button("Start"):
     st.session_state.running = True
@@ -63,7 +58,6 @@ status = st.empty()
 ear_metric = st.metric("EAR", "0.00")
 frame_metric = st.metric("Closed Frames", 0)
 
-# ---------------- MAIN LOOP ----------------
 if st.session_state.running:
     cap = cv2.VideoCapture(CAMERA_INDEX)
 
@@ -94,7 +88,6 @@ if st.session_state.running:
 
             frame_metric.metric("Closed Frames", st.session_state.closed_frames)
 
-            # ---------------- ALARM LOGIC ----------------
             if st.session_state.closed_frames >= CLOSED_FRAMES_LIMIT:
                 if time.time() - st.session_state.last_alarm > ALARM_COOLDOWN:
                     play_sound()
