@@ -15,7 +15,7 @@ Safe for demos: Works reliably on your machine without depending on internet spe
 
 Future Deployment Options with React
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 To make this project globally accessible while supporting live webcam input, the project can be rewritten using React and MediaPipe JS:
 
 Core Libraries / Tools Required
@@ -36,14 +36,11 @@ WebRTC / getUserMedia – for webcam streaming in the browser
 
 Chart.js / Recharts / D3.js – for plotting live EAR/fatigue graphs
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Deployment Options
 
 Netlify / Vercel: Simple static hosting for React apps
 
 Docker + Cloud VM: If integrating Python backend for heavy processing
 
-GitHub: Static demo without Python backend
-
---------------------------------------------------------------------
+GitHub: Static demo without backend
